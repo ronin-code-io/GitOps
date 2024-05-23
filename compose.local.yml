@@ -1,6 +1,8 @@
 services:
   app-service:
-    image: yoloslaw/app-service:latest
+    build:
+      context: ../app-service-backend
+      dockerfile: ../app-service-backend/Dockerfile.local
     restart: "always"
     expose:
       - "8000:8000"
@@ -36,7 +38,9 @@ services:
       traefik.http.routers.app-service-secure.middlewares: "strip-app-mv"
 
   auth-service:
-    image: yoloslaw/auth-service:latest
+    build:
+      context: ../auth-service-backend
+      dockerfile: ../auth-service-backend/Dockerfile.local
     restart: "always"
     expose:
       - "3000:3000"
