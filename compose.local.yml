@@ -3,7 +3,6 @@ services:
     build:
       context: ../app-service-backend
       dockerfile: ../app-service-backend/Dockerfile.local
-    restart: "always"
     expose:
       - "8000:8000"
     depends_on: 
@@ -41,7 +40,6 @@ services:
     build:
       context: ../auth-service-backend
       dockerfile: ../auth-service-backend/Dockerfile.local
-    restart: "always"
     expose:
       - "3000:3000"
     depends_on:
@@ -74,7 +72,6 @@ services:
   
   reverse-proxy:
     image: traefik:latest
-    restart: "always"
     ports:
       - "80:80"
       - "443:443"
