@@ -41,6 +41,7 @@ jobs:
           cd ~
           touch ./reverse-proxy-service/acme.json
           chmod 600 ./reverse-proxy-service/acme.json
+          export JWT_SECRET=${{ secrets.JWT_SECRET }}
           docker compose down
           docker compose pull
           docker compose up -d

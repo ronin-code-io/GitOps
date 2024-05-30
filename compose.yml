@@ -38,6 +38,8 @@ services:
       - "3000:3000"
     depends_on:
       - reverse-proxy
+    environment:
+      JWT_SECRET: "${JWT_SECRET}"
     labels:
       traefik.enable: "true"
 
