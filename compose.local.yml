@@ -14,7 +14,7 @@ services:
       - ~/Repos/live-bootcamp/app-service-frontend/assets:/app/assets:ro
     environment:
       ASSETS_DIR: /app/assets
-      AUTH_SERVICE_HOST: localhost/auth/
+      AUTH_SERVICE_HOST: localhost/auth
     labels:
       traefik.enable: "true"
 
@@ -26,13 +26,13 @@ services:
       traefik.http.middlewares.strip-app-mv.stripprefix.prefixes: "/app"
 
       traefik.http.routers.app-service.entrypoints: "web"
-      traefik.http.routers.app-service.rule: "Host(`localhost`) && PathPrefix(`/app`)"
+      traefik.http.routers.app-service.rule: "Host(`localhost`) && PathPrefix(`/app/`)"
       
       traefik.http.services.app-service.loadbalancer.server.port: "8000"
 
       traefik.http.routers.app-service-http.middlewares: "app-mv"
       traefik.http.routers.app-service-secure.entrypoints: "websecure"
-      traefik.http.routers.app-service-secure.rule: "Host(`localhost`) && PathPrefix(`/app`)"
+      traefik.http.routers.app-service-secure.rule: "Host(`localhost`) && PathPrefix(`/app/`)"
 
       traefik.http.routers.app-service-secure.tls: "true"
       traefik.http.routers.app-service-secure.middlewares: "strip-app-mv"
@@ -61,13 +61,13 @@ services:
       traefik.http.middlewares.strip-auth-mv.stripprefix.prefixes: "/auth"
 
       traefik.http.routers.auth-service.entrypoints: "web"
-      traefik.http.routers.auth-service.rule: "Host(`localhost`) && PathPrefix(`/auth`)"
+      traefik.http.routers.auth-service.rule: "Host(`localhost`) && PathPrefix(`/auth/`)"
       
       traefik.http.services.auth-service.loadbalancer.server.port: "3000"
 
       traefik.http.routers.auth-service-http.middlewares: "auth-mv"
       traefik.http.routers.auth-service-secure.entrypoints: "websecure"
-      traefik.http.routers.auth-service-secure.rule: "Host(`localhost`) && PathPrefix(`/auth`)"
+      traefik.http.routers.auth-service-secure.rule: "Host(`localhost`) && PathPrefix(`/auth/`)"
 
       traefik.http.routers.auth-service-secure.tls: "true"
       traefik.http.routers.auth-service-secure.middlewares: "strip-auth-mv"
