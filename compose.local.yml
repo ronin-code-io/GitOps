@@ -14,6 +14,7 @@ services:
       - ~/Repos/live-bootcamp/app-service-frontend/assets:/app/assets:ro
     environment:
       ASSETS_DIR: /app/assets
+      AUTH_SERVICE_HOST: localhost/auth/
     labels:
       traefik.enable: "true"
 

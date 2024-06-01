@@ -9,6 +9,11 @@ services:
         condition: service_started
       reverse-proxy:
         condition: service_started
+    environment:
+      ASSETS_DIR: /app/assets
+      AUTH_SERVICE_HOST: ${AUTH_SERVICE_HOST}
+    volumes:
+      - ~/Repos/live-bootcamp/app-service-frontend/assets:/app/assets:ro
     labels:
       traefik.enable: "true"
 
