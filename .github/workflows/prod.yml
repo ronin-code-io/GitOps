@@ -41,6 +41,8 @@ jobs:
           cd ~
           touch ./reverse-proxy-service/acme.json
           chmod 600 ./reverse-proxy-service/acme.json
+          echo '${{ secrets.RONIN_CODE_IO_CERT_FILE }}' > ./reverse-proxy-service/cert.pem
+          echo '${{ secrets.RONIN_CODE_IO_KEY_FILE}}' > ./reverse-proxy-service/key.pem
           export JWT_SECRET=${{ secrets.JWT_SECRET }}
           export AUTH_SERVICE_HOST=${{ secrets.AUTH_SERVICE_HOST }}
           docker compose down

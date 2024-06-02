@@ -74,6 +74,8 @@ services:
     volumes:
       - ./reverse-proxy-service/traefik.yml:/etc/traefik/traefik.yml
       - ./reverse-proxy-service/acme.json:/letsencrypt/acme.json
+      - ./reverse-proxy-service/cert.pem:/letsencrypt/cert.pem
+      - ./reverse-proxy-service/key.pem:/letsencrypt/key.pem
       - /var/run/docker.sock:/var/run/docker.sock:ro
     labels:
       traefik.enable: "false"

@@ -35,6 +35,13 @@ certificatesResolvers:
         entryPoint: "web"
 
 tls:
+  certificates:
+    - certFile: "/letsencrypt/cert.pem"
+      keyFile: "/letsencrypt/key.pem"
+      stores:
+        default: {}
+  stores:
+    default: {}
   options:
     default:
       minVersion: "VersionTLS12"
