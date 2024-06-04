@@ -25,29 +25,11 @@ entryPoints:
   websecure:
     address: ":443"
 
-certificatesResolvers:
-  myresolver:
-    acme:
-      email: "mateusz.placzek@gmail.com"
-      storage: "/letsencrypt/acme.json"
-      caServer: "https://acme-v02.api.letsencrypt.org/directory"
-      httpChallenge:
-        entryPoint: "web"
-
-tls:
-  certificates:
-    - certFile: "/letsencrypt/cert.pem"
-      keyFile: "/letsencrypt/key.pem"
-      stores:
-        default: {}
-  stores:
-    default: {}
-  options:
-    default:
-      minVersion: "VersionTLS12"
-
 providers:
   docker:
     watch: true
     exposedByDefault: false
     endpoint: "unix:///var/run/docker.sock"
+  file:
+    watch: true
+    directory: "/etc/traefik/dynamic"

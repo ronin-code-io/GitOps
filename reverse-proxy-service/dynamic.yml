@@ -1,0 +1,14 @@
+tls:
+  certificates:
+    - certFile: "/letsencrypt/cert.pem"
+      keyFile: "/letsencrypt/key.pem"
+
+  stores:
+    default:
+      defaultCertificate:
+        certFile: "/letsencrypt/cert.pem"
+        keyFile: "/letsencrypt/key.pem"
+
+  options:
+    default:
+      minVersion: "VersionTLS12"

@@ -23,13 +23,13 @@ services:
       traefik.http.middlewares.strip-app-mv.stripprefix.prefixes: "/app"
 
       traefik.http.routers.app-service.entrypoints: "web"
-      traefik.http.routers.app-service.rule: "Host(`ronin-code.io`) && PathPrefix(`/app/`)"
+      traefik.http.routers.app-service.rule: "(Host(`ronin-code.io`) || Host(`localhost`)) && PathPrefix(`/app/`)"
       
       traefik.http.services.app-service.loadbalancer.server.port: "8000"
 
       traefik.http.routers.app-service-http.middlewares: "app-mv"
       traefik.http.routers.app-service-secure.entrypoints: "websecure"
-      traefik.http.routers.app-service-secure.rule: "Host(`ronin-code.io`) && PathPrefix(`/app/`)"
+      traefik.http.routers.app-service-secure.rule: "(Host(`ronin-code.io`) || Host(`localhost`)) && PathPrefix(`/app/`)"
 
       traefik.http.routers.app-service-secure.tls: "true"
       traefik.http.routers.app-service-secure.middlewares: "strip-app-mv"
@@ -54,13 +54,13 @@ services:
       traefik.http.middlewares.strip-auth-mv.stripprefix.prefixes: "/auth"
 
       traefik.http.routers.auth-service.entrypoints: "web"
-      traefik.http.routers.auth-service.rule: "Host(`ronin-code.io`) && PathPrefix(`/auth/`)"
+      traefik.http.routers.auth-service.rule: "(Host(`ronin-code.io`) || Host(`localhost`)) && PathPrefix(`/auth/`)"
       
       traefik.http.services.auth-service.loadbalancer.server.port: "3000"
 
       traefik.http.routers.auth-service-http.middlewares: "auth-mv"
       traefik.http.routers.auth-service-secure.entrypoints: "websecure"
-      traefik.http.routers.auth-service-secure.rule: "Host(`ronin-code.io`) && PathPrefix(`/auth/`)"
+      traefik.http.routers.auth-service-secure.rule: "(Host(`ronin-code.io`) || Host(`localhost`)) && PathPrefix(`/auth/`)"
 
       traefik.http.routers.auth-service-secure.tls: "true"
       traefik.http.routers.auth-service-secure.middlewares: "strip-auth-mv"
@@ -72,10 +72,11 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-      - ./reverse-proxy-service/traefik.yml:/etc/traefik/traefik.yml
+      - ./reverse-proxy-service/traefik.yml:/etc/traefik/traefik.yml:ro
+      - ./reverse-proxy-service/dynamic.yml:/etc/traefik/dynamic/config.yml:ro
       - ./reverse-proxy-service/acme.json:/letsencrypt/acme.json
-      - ./reverse-proxy-service/cert.pem:/letsencrypt/cert.pem
-      - ./reverse-proxy-service/key.pem:/letsencrypt/key.pem
+      - ./reverse-proxy-service/cert.pem:/letsencrypt/cert.pem:ro
+      - ./reverse-proxy-service/key.pem:/letsencrypt/key.pem:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
     labels:
       traefik.enable: "false"
