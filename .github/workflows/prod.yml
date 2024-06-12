@@ -45,6 +45,7 @@ jobs:
           echo '${{ secrets.RONIN_CODE_IO_KEY_FILE}}' > ./reverse-proxy-service/key.pem
           export JWT_SECRET=${{ secrets.JWT_SECRET }}
           export AUTH_SERVICE_HOST=${{ secrets.AUTH_SERVICE_HOST }}
+          export POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}
           docker compose down
           docker compose pull
           docker compose up -d
