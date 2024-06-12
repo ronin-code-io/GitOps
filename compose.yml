@@ -6,9 +6,7 @@ services:
       - "8000:8000"
     depends_on: 
       auth-service:
-        condition: service_started
-      reverse-proxy:
-        condition: service_started
+        condition: service_healthy
     environment:
       ASSETS_DIR: /app/assets
       AUTH_SERVICE_HOST: ${AUTH_SERVICE_HOST}
@@ -40,9 +38,16 @@ services:
     expose:
       - "3000:3000"
     depends_on:
-      - reverse-proxy
+      db:
+        condition: service_healthy
     environment:
       JWT_SECRET: "${JWT_SECRET}"
+      DATABASE_URL: "postgres://postgres:${POSTGRES_PASSWORD}@db:5432"
+    healthcheck:
+      test: wget --no-verbose --tries=1 --spider 'http://auth-service:3000/'
+      interval: 10s
+      timeout: 5s
+      retries: 3
     labels:
       traefik.enable: "true"
 
@@ -80,3 +85,22 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     labels:
       traefik.enable: "false"
+
+  db:
+    image: postgres:15.2-alpine
+    restart: "always"
+    environment:
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
+    ports:
+      - "5432:5432"
+    volumes:
+      - db:/var/lib/postgresql/data
+    healthcheck:
+      test: "pg_isready -U postgres"
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  db:
+    driver: local
