@@ -40,6 +40,8 @@ services:
     depends_on:
       db:
         condition: service_healthy
+      redis:
+        condition: service_healthy
     environment:
       JWT_SECRET: "${JWT_SECRET}"
       DATABASE_URL: "postgres://postgres:${POSTGRES_PASSWORD}@db:5432"
@@ -97,6 +99,17 @@ services:
       - db:/var/lib/postgresql/data
     healthcheck:
       test: "pg_isready -U postgres"
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7.0-alpine
+    restart: "always"
+    ports:
+      - "6379:6397"
+    healthcheck:
+      test: "redis-cli --raw incr ping"
       interval: 5s
       timeout: 5s
       retries: 5

@@ -42,7 +42,9 @@ services:
     expose:
       - "3000:3000"
     depends_on:
-     db:
+      db:
+        condition: service_healthy
+      redis:
         condition: service_healthy
     volumes:
       - ~/Repos/live-bootcamp/auth-service-frontend/assets:/app/assets:ro
@@ -103,6 +105,17 @@ services:
       - db:/var/lib/postgresql/data
     healthcheck:
       test: pg_isready -U postgres
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7.0-alpine
+    restart: on-failure
+    ports:
+      - "6379:6397"
+    healthcheck:
+      test: "redis-cli --raw incr ping"
       interval: 5s
       timeout: 5s
       retries: 5
