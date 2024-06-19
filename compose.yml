@@ -45,6 +45,7 @@ services:
     environment:
       JWT_SECRET: "${JWT_SECRET}"
       DATABASE_URL: "postgres://postgres:${POSTGRES_PASSWORD}@db:5432"
+      POSTMARK_AUTH_TOKEN: "${POSTMARK_AUTH_TOKEN}"
     healthcheck:
       test: wget --no-verbose --tries=1 --spider 'http://auth-service:3000/'
       interval: 10s

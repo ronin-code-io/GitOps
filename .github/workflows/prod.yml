@@ -48,6 +48,7 @@ jobs:
           export POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}
           export POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}
           export REDIS_HOSTNAME=${{ vars.REDIS_HOSTNAME }}
+          export POSTMARK_AUTH_TOKEN=${{ secrets.POSTMARK_AUTH_TOKEN }} 
           docker compose down
           docker compose pull
           docker compose up -d
